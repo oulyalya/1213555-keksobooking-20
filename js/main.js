@@ -7,7 +7,7 @@ var CHECKOUT_TIMES = ['12:00', '13:00', '14:00'];
 var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 var PRICE_MIN = 1000;
-var PRICE_MAX = 100000;
+var PRICE_MAX = 10000;
 var ROOMS_MIN = 1;
 var ROOMS_MAX = 3;
 var GUESTS_MIN = 1;
@@ -21,6 +21,9 @@ var advertsArray = [];
 var map = document.querySelector('.map');
 var mapWidth = map.clientWidth;
 
+var pins = document.querySelector('.map__pins');
+var pinsTemplate = document.querySelector('#pin').content.querySelector('button');
+var pinsFragment = document.createDocumentFragment();
 
 // Получить случайное число
 var getRandomNValue = function (min, max) {
@@ -37,7 +40,7 @@ var generateAdvertData = function (count) {
       'title': 'заголовок предложения',
     },
     'address': '' + getRandomNValue(0, 600) + ', ' + getRandomNValue(0, 600),
-    'price': getRandomNValue(300, 2500),
+    'price': getRandomNValue(PRICE_MIN, PRICE_MAX),
     'type': TYPES[getRandomNValue(0, TYPES.length)],
     'rooms': getRandomNValue(ROOMS_MIN, ROOMS_MAX),
     'guests': getRandomNValue(GUESTS_MIN, GUESTS_MAX),
@@ -68,10 +71,6 @@ var showMap = function () {
 };
 showMap();
 
-var pins = document.querySelector('.map__pins');
-var pinsTemplate = document.querySelector('#pin').content.querySelector('button');
-var pinsFragment = document.createDocumentFragment();
-
 // Генерирует метку карты
 var generatePin = function (functionName) {
   var pin = pinsTemplate.cloneNode(true);
@@ -86,9 +85,12 @@ var generatePin = function (functionName) {
 };
 
 // Добавляет метки на карту
-for (var j = 1; j <= COUNT_OF_OBJECTS; j++) {
-  var createArray = generateAdvertsArray();
-  pinsFragment.appendChild(generatePin(createArray[j]));
-}
+var renderPins = function () {
+  for (var j = 1; j <= COUNT_OF_OBJECTS; j++) {
+    var createArray = generateAdvertsArray();
+    pinsFragment.appendChild(generatePin(createArray[j]));
+  }
+};
 
+renderPins();
 pins.appendChild(pinsFragment);
