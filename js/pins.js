@@ -26,36 +26,6 @@
     }
   };
 
-  // var onPinClickShowCard = function () {
-  // //   if (!pins.classList.contains('pin--main')) {
-  // //     var allPins = document.querySelector('.map__pins:not(pin--main)');
-  // //     for (var i = 0; i < allPins.length; i++) {
-  //       pins[i].addEventListener('click', function (evt) {
-  //         evt.preventDefault();
-  //         console.log('kkk');
-  //       // });
-  // //     }
-  // //   }
-  // };
-  // по клику на 1 из пинов (не пин--мейн)
-  // добавить класс пин-эктив
-  // window.card.show(obj[i])
-
-  // window.mapPins.pins.addEventListener('click', function(evt) {
-  //   evt.preventDefault();
-  //   console.log('j');
-  // });
-
-  // var onPinClickRenderCard = function () {
-  //   for (var i = 0; i < window.mapPins.pins.length; i++) {
-  //     window.mapPins.pins[i].addEventListener('click', function (evt) {
-  //       evt.preventDefault();
-  //       window.card.show(window.data.advertsArray[i]);
-  //       console.log('kkk');
-  //     });
-  //   }
-  // };
-
   window.mapPins = {
     generatePin: generatePin,
     renderPins: renderPins,

@@ -13,9 +13,6 @@
   var isEscEvent = function (evt, action) {
     if (evt.keyCode === ESC_KEYCODE) {
       action();
-      // if (nextAction) {
-      //   nextAction();
-      // }
     }
   };
 
