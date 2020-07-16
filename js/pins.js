@@ -15,6 +15,10 @@
     pin.querySelector('img').src = functionName.author.avatar;
     pin.querySelector('img').alt = functionName.offer.title;
 
+    pin.addEventListener('click', function (evt) {
+      window.card.show(window.data.generateAdvertData());
+    })
+
     return pin;
   };
 
