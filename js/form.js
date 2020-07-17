@@ -43,6 +43,66 @@
 
   guestsNumber.addEventListener('change', validateGuestsNumber);
 
+// Минимальная цена, соответствующая типу жилья
+  var getMinPriceOfHousing = function (type) {
+    var minPrice = 0;
+    switch (type) {
+      case 'bungalo':
+        minPrice = 0;
+        break;
+      case 'flat':
+        minPrice = 1000;
+        break;
+      case 'house':
+        minPrice = 5000;
+        break;
+      case 'palace':
+        minPrice = 10000;
+        break;
+    }
+    return minPrice;
+  };
+
+  var typeOfHousing = adForm.querySelector('select[name="type"]');
+  var priceOfHousing = adForm.querySelector('input[name="price"]');
+
+  var setMinPriceOfHousing = function () {
+    var price = getMinPriceOfHousing(typeOfHousing.value);
+    priceOfHousing.min = price;
+    priceOfHousing.placeholder = price;
+  };
+
+  typeOfHousing.addEventListener('change', setMinPriceOfHousing);
+
+  // Синхронизация времени заезда и выезда
+  var timeInSelect = adForm.querySelector('select[name="timein"]');
+  var timeOutSelect = adForm.querySelector('select[name="timeout"]');
+
+  var syncTimes = function (time1, time2) {
+    time1.addEventListener('change', function () {
+      if (time1[0].selected === true) {
+        time2[0].selected = true;
+      }
+      if (time1[1].selected === true) {
+        time2[1].selected = true;
+      }
+      if (time1[2].selected === true) {
+        time2[2].selected = true;
+      }
+    });
+  };
+
+  // Отправка формы
+  adForm.addEventListener('submit', function (evt) {
+    window.upload(new FormData(adForm), function (response) {
+      adForm.classList.add('hidden');
+    });
+    evt.preventDefault();
+  });
+
+  syncTimes(timeInSelect, timeOutSelect);
+  syncTimes(timeOutSelect, timeInSelect);
+
   window.form = {
     adForm: adForm,
     addressInput: addressInput,
@@ -50,7 +110,6 @@
     inputs: inputs,
     guestsNumber: guestsNumber,
     enableFieldsets: enableFieldsets,
-    disableFieldsets: disableFieldsets,
-    validateGuestsNumber: validateGuestsNumber
+    disableFieldsets: disableFieldsets
   };
 })();
