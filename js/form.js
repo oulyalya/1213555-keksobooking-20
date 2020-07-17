@@ -43,7 +43,7 @@
 
   guestsNumber.addEventListener('change', validateGuestsNumber);
 
-// Минимальная цена, соответствующая типу жилья
+  // Минимальная цена, соответствующая типу жилья
   var getMinPriceOfHousing = function (type) {
     var minPrice = 0;
     switch (type) {
@@ -91,14 +91,6 @@
       }
     });
   };
-
-  // Отправка формы
-  adForm.addEventListener('submit', function (evt) {
-    window.upload(new FormData(adForm), function (response) {
-      adForm.classList.add('hidden');
-    });
-    evt.preventDefault();
-  });
 
   syncTimes(timeInSelect, timeOutSelect);
   syncTimes(timeOutSelect, timeInSelect);
