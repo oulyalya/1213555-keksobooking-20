@@ -22,25 +22,25 @@
 
   var generateAdvertData = function (count) {
     return {
-      'author': {
-        'avatar': 'img/avatars/user0' + (count) + '.png',
+      author: {
+        avatar: 'img/avatars/user0' + (count) + '.png',
       },
-      'offer': {
-        'title': 'заголовок предложения',
+      offer: {
+        title: 'Заголовок предложения',
+        address: '' + getRandomValue(0, 600) + ', ' + getRandomValue(0, 600),
+        price: getRandomValue(PRICE_MIN, PRICE_MAX),
+        type: TYPES[getRandomValue(0, TYPES.length)],
+        rooms: getRandomValue(ROOMS_MIN, ROOMS_MAX),
+        guests: getRandomValue(GUESTS_MIN, GUESTS_MAX),
+        checkin: CHECKIN_TIMES[getRandomValue(0, CHECKIN_TIMES.length)],
+        checkout: CHECKOUT_TIMES[getRandomValue(0, CHECKOUT_TIMES.length)],
+        features: FEATURES,
+        description: 'Описание',
+        photos: PHOTOS,
       },
-      'address': '' + getRandomValue(0, 600) + ', ' + getRandomValue(0, 600),
-      'price': getRandomValue(PRICE_MIN, PRICE_MAX),
-      'type': TYPES[getRandomValue(0, TYPES.length)],
-      'rooms': getRandomValue(ROOMS_MIN, ROOMS_MAX),
-      'guests': getRandomValue(GUESTS_MIN, GUESTS_MAX),
-      'checkin': CHECKIN_TIMES[getRandomValue(0, CHECKIN_TIMES.length)],
-      'checkout': CHECKOUT_TIMES[getRandomValue(0, CHECKOUT_TIMES.length)],
-      'features': FEATURES,
-      'description': 'описание',
-      'photos': PHOTOS,
-      'location': {
-        'x': getRandomValue(0, window.mapArea.mapWidth),
-        'y': getRandomValue(LOCATION_Y_MIN, LOCATION_Y_MAX)
+      location: {
+        x: getRandomValue(0, window.mapArea.mapWidth),
+        y: getRandomValue(LOCATION_Y_MIN, LOCATION_Y_MAX)
       }
     };
   };
