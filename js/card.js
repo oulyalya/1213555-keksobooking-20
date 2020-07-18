@@ -26,6 +26,7 @@
     var popupCloseBtn = cardElement.querySelector('.popup__close');
     var houseType = cardElement.querySelector('h4');
 
+    cardElement.querySelector('.popup__avatar').src = obj.author.avatar;
     cardElement.querySelector('.popup__title').textContent = obj.offer.title;
     cardElement.querySelector('.popup__text--address').textContent = obj.offer.address;
     cardElement.querySelector('.popup__text--price').textContent = obj.offer.price;
