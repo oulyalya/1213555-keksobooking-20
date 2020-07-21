@@ -1,7 +1,14 @@
 'use strict';
 
 (function () {
+  var COUNT_OF_AVATAR = 8;
   var TYPES = ['palace', 'flat', 'house', 'bungalo'];
+  var TYPES_POPUP = {
+    palace: 'Дворец',
+    flat: 'Квартира',
+    house: 'Дом',
+    bungalo: 'Бунгало'
+  };
   var CHECKIN_TIMES = ['12:00', '13:00', '14:00'];
   var CHECKOUT_TIMES = ['12:00', '13:00', '14:00'];
   var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
@@ -20,10 +27,10 @@
     return Math.floor(Math.random() * (max - min + 1)) + min;
   };
 
-  var generateAdvertData = function (count) {
+  var generateAdvertData = function () {
     return {
       author: {
-        avatar: 'img/avatars/user0' + (count) + '.png',
+        avatar: 'img/avatars/user0' + getRandomValue(1, COUNT_OF_AVATAR) + '.png',
       },
       offer: {
         title: 'Заголовок предложения',
@@ -58,6 +65,7 @@
     generateAdvertsArray: generateAdvertsArray,
     LOCATION_Y_MIN: LOCATION_Y_MIN,
     LOCATION_Y_MAX: LOCATION_Y_MAX,
+    TYPES_POPUP: TYPES_POPUP,
     advertsArray: advertsArray
   };
 })();
