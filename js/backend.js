@@ -34,5 +34,5 @@
 
   window.backend = {
     load: load
-  }
+  };
 })();
