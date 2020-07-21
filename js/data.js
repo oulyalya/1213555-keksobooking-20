@@ -1,7 +1,14 @@
 'use strict';
 
 (function () {
+  var COUNT_OF_AVATAR = 8;
   var TYPES = ['palace', 'flat', 'house', 'bungalo'];
+  var TYPES_POPUP = {
+    palace: 'Дворец',
+    flat: 'Квартира',
+    house: 'Дом',
+    bungalo: 'Бунгало'
+  };
   var CHECKIN_TIMES = ['12:00', '13:00', '14:00'];
   var CHECKOUT_TIMES = ['12:00', '13:00', '14:00'];
   var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
@@ -20,27 +27,27 @@
     return Math.floor(Math.random() * (max - min + 1)) + min;
   };
 
-  var generateAdvertData = function (count) {
+  var generateAdvertData = function () {
     return {
-      'author': {
-        'avatar': 'img/avatars/user0' + (count) + '.png',
+      author: {
+        avatar: 'img/avatars/user0' + getRandomValue(1, COUNT_OF_AVATAR) + '.png',
       },
-      'offer': {
-        'title': 'заголовок предложения',
+      offer: {
+        title: 'Заголовок предложения',
+        address: '' + getRandomValue(0, 600) + ', ' + getRandomValue(0, 600),
+        price: getRandomValue(PRICE_MIN, PRICE_MAX),
+        type: TYPES[getRandomValue(0, TYPES.length)],
+        rooms: getRandomValue(ROOMS_MIN, ROOMS_MAX),
+        guests: getRandomValue(GUESTS_MIN, GUESTS_MAX),
+        checkin: CHECKIN_TIMES[getRandomValue(0, CHECKIN_TIMES.length)],
+        checkout: CHECKOUT_TIMES[getRandomValue(0, CHECKOUT_TIMES.length)],
+        features: FEATURES,
+        description: 'Описание',
+        photos: PHOTOS,
       },
-      'address': '' + getRandomValue(0, 600) + ', ' + getRandomValue(0, 600),
-      'price': getRandomValue(PRICE_MIN, PRICE_MAX),
-      'type': TYPES[getRandomValue(0, TYPES.length)],
-      'rooms': getRandomValue(ROOMS_MIN, ROOMS_MAX),
-      'guests': getRandomValue(GUESTS_MIN, GUESTS_MAX),
-      'checkin': CHECKIN_TIMES[getRandomValue(0, CHECKIN_TIMES.length)],
-      'checkout': CHECKOUT_TIMES[getRandomValue(0, CHECKOUT_TIMES.length)],
-      'features': FEATURES,
-      'description': 'описание',
-      'photos': PHOTOS,
-      'location': {
-        'x': getRandomValue(0, window.mapArea.mapWidth),
-        'y': getRandomValue(LOCATION_Y_MIN, LOCATION_Y_MAX)
+      location: {
+        x: getRandomValue(0, window.mapArea.mapWidth),
+        y: getRandomValue(LOCATION_Y_MIN, LOCATION_Y_MAX)
       }
     };
   };
@@ -58,6 +65,7 @@
     generateAdvertsArray: generateAdvertsArray,
     LOCATION_Y_MIN: LOCATION_Y_MIN,
     LOCATION_Y_MAX: LOCATION_Y_MAX,
+    TYPES_POPUP: TYPES_POPUP,
     advertsArray: advertsArray
   };
 })();
