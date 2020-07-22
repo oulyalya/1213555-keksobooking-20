@@ -158,18 +158,14 @@
         },
         function () {
           addFormMessage(messageError);
-          validateFormFields(adFormFields);
+          validateFormFields(inputs);
         });
   };
 
-   var validateFormFields = function (formFields) {
-    inputs.forEach(function (item) {
+  var validateFormFields = function (inputFields) {
+    inputFields.forEach(function (item) {
       item.classList.toggle('error-form', !item.validity.valid);
     });
-    if (priceOfHousing.value < priceOfHousing.min) {
-        adFormSubmit.style.setAttribute="disabled";
-
-    }
   };
 
   var onFormSubmitClick = function () {
