@@ -36,17 +36,46 @@
   };
 
   // Добавляет метки на карту
-  var renderPins = function () {
-    for (var j = 1; j <= window.util.COUNT_OF_OBJECTS; j++) {
-      var createArray = window.data.generateAdvertsArray();
-      pinsFragment.appendChild(generatePin(createArray[j]));
-    }
+  var renderPins = function (adverts) {
+    adverts.forEach(function (adv) {
+      pinsFragment.appendChild(generatePin(adv));
+    });
+    window.cardPopup.mapPin.appendChild(pinsFragment);
+  };
+
+  window.ads = [];
+
+  var onSuccessRenderPins = function (adverts) {
+    window.ads = adverts;
+    renderPins(window.ads);
+  };
+
+  var onErrorRenderPins = function (errorMessage) {
+    var node = document.createElement('div');
+    node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red;';
+    node.style.position = 'absolute';
+    node.style.left = 0;
+    node.style.right = 0;
+    node.style.fontSize = '30px';
+
+    node.textContent = errorMessage;
+    document.body.insertAdjacentElement('afterbegin', node);
+  };
+
+  var removePins = function () {
+    var mapPinsItems = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+    mapPinsItems.forEach(function (it) {
+      it.remove();
+    });
   };
 
   window.mapPins = {
     removeActiveClassPin: removeActiveClassPin,
     generatePin: generatePin,
     renderPins: renderPins,
+    onSuccessRenderPins: onSuccessRenderPins,
+    onErrorRenderPins: onErrorRenderPins,
+    removePins: removePins,
     pins: pins,
     pinsFragment: pinsFragment,
   };

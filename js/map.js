@@ -1,7 +1,6 @@
 'use strict';
 
 (function () {
-  // var map = document.querySelector('.map');
   var mapWidth = window.util.map.clientWidth;
 
   var pinMain = document.querySelector('.map__pin--main');
@@ -18,8 +17,7 @@
     window.form.adForm.classList.remove('ad-form--disabled');
     changeAddressInputValue();
     window.form.enableFieldsets(window.form.formFieldsets);
-    window.mapPins.renderPins();
-    window.mapPins.pins.appendChild(window.mapPins.pinsFragment);
+    window.backend.load(window.mapPins.onSuccessRenderPins, window.mapPins.onErrorRenderPins);
     pinMain.removeEventListener('keydown', enablePage);
     pinMain.removeEventListener('mousedown', enablePage);
   };
