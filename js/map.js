@@ -2,7 +2,6 @@
 
 (function () {
   var mapWidth = window.util.map.clientWidth;
-
   var pinMain = document.querySelector('.map__pin--main');
 
   // Подставить координаты пина в инпут
@@ -14,17 +13,15 @@
 
   var enablePage = function () {
     window.util.map.classList.remove('map--faded');
-    window.form.adForm.classList.remove('ad-form--disabled');
+    window.form.enable();
     changeAddressInputValue();
-    window.form.enableFieldsets(window.form.formFieldsets);
     window.backend.load(window.mapPins.onSuccessRenderPins, window.mapPins.onErrorRenderPins);
     pinMain.removeEventListener('keydown', enablePage);
     pinMain.removeEventListener('mousedown', enablePage);
   };
 
   var disablePage = function () {
-    window.util.map.classList.add('map--faded');
-    window.form.disableFieldsets(window.form.formFieldsets);
+    window.form.disable();
   };
 
   disablePage();
@@ -100,6 +97,7 @@
   });
 
   window.mapArea = {
-    mapWidth: mapWidth
+    mapWidth: mapWidth,
+    disablePage: disablePage
   };
 })();

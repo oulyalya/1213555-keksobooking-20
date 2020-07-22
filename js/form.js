@@ -5,6 +5,7 @@
   var addressInput = adForm.querySelector('input[name="address"]');
   var formFieldsets = adForm.querySelectorAll('fieldset');
   var inputs = adForm.querySelectorAll('input');
+  var adFormSubmit = adForm.querySelector('.ad-form__submit');
 
   // Сделать инпуты активными
   var enableFieldsets = function (fieldsetsArr) {
@@ -18,6 +19,23 @@
     for (var i = 0; i < fieldsetsArr.length; i++) {
       fieldsetsArr[i].setAttribute('disabled', 'true');
     }
+  };
+
+  // Деактивация формы
+  var deactivateForm = function () {
+    adForm.classList.add('ad-form--disabled');
+    adForm.reset();
+    disableFieldsets(formFieldsets);
+    adForm.removeEventListener('submit', onSubmitSendForm);
+    adFormSubmit.removeEventListener('click', onFormSubmitClick);
+  };
+
+  // Активация формы
+  var activateForm = function () {
+    adForm.classList.remove('ad-form--disabled');
+    enableFieldsets(formFieldsets);
+    adForm.addEventListener('submit', onSubmitSendForm);
+    adFormSubmit.addEventListener('click', onFormSubmitClick);
   };
 
   // Валидация. Поле с количеством гостей
@@ -95,13 +113,79 @@
   syncTimes(timeInSelect, timeOutSelect);
   syncTimes(timeOutSelect, timeInSelect);
 
+  // Сообщение об успехе/ошибке отправки формы
+  var messageSuccessTemplate = document.querySelector('#success').content.querySelector('.success');
+  var messageSuccess = messageSuccessTemplate.cloneNode(true);
+  var messageErrorTemplate = document.querySelector('#error').content.querySelector('.error');
+  var messageError = messageErrorTemplate.cloneNode(true);
+
+  var addFormMessage = function (message) {
+    document.body.appendChild(message);
+    message.classList.add('message');
+    document.addEventListener('click', onDocumentClick);
+    document.addEventListener('keydown', onDocumentEscape);
+  };
+
+  var removeFormMessage = function () {
+    document.querySelector('.message').remove();
+    document.removeEventListener('click', onDocumentClick);
+    document.removeEventListener('keydown', onDocumentEscape);
+  };
+
+  // Обработчик удаления сообщений при отправки формы по клику на документ
+  var onDocumentClick = function (evt) {
+    evt.preventDefault();
+    if (evt.button === 0) {
+      removeFormMessage();
+    }
+  };
+
+  // Обработчик удаления сообщений при отправки формы по по клику на Escape
+  var onDocumentEscape = function (evt) {
+    evt.preventDefault();
+    if (evt.key === 'Escape') {
+      removeFormMessage();
+    }
+  };
+
+  // Отправка формы
+  var onSubmitSendForm = function (evt) {
+    evt.preventDefault();
+    window.backend.upload(new FormData(adForm),
+        function () {
+          addFormMessage(messageSuccess);
+          window.mapArea.disablePage();
+        },
+        function () {
+          addFormMessage(messageError);
+          validateFormFields(adFormFields);
+        });
+  };
+
+   var validateFormFields = function (formFields) {
+    inputs.forEach(function (item) {
+      item.classList.toggle('error-form', !item.validity.valid);
+    });
+    if (priceOfHousing.value < priceOfHousing.min) {
+        adFormSubmit.style.setAttribute="disabled";
+
+    }
+  };
+
+  var onFormSubmitClick = function () {
+    validateFormFields(inputs);
+  };
+
   window.form = {
+    enable: activateForm,
+    disable: deactivateForm,
     adForm: adForm,
     addressInput: addressInput,
     formFieldsets: formFieldsets,
     inputs: inputs,
     guestsNumber: guestsNumber,
     enableFieldsets: enableFieldsets,
-    disableFieldsets: disableFieldsets
+    disableFieldsets: disableFieldsets,
+    onFormSubmitClick: onFormSubmitClick
   };
 })();
