@@ -26,16 +26,16 @@
     adForm.classList.add('ad-form--disabled');
     adForm.reset();
     disableFieldsets(formFieldsets);
-    adForm.removeEventListener('submit', onSubmitSendForm);
-    adFormSubmit.removeEventListener('click', onFormSubmitClick);
+    adForm.removeEventListener('submit', submitSendFormHandler);
+    adFormSubmit.removeEventListener('click', formSubmitClickHandler);
   };
 
   // Активация формы
   var activateForm = function () {
     adForm.classList.remove('ad-form--disabled');
     enableFieldsets(formFieldsets);
-    adForm.addEventListener('submit', onSubmitSendForm);
-    adFormSubmit.addEventListener('click', onFormSubmitClick);
+    adForm.addEventListener('submit', submitSendFormHandler);
+    adFormSubmit.addEventListener('click', formSubmitClickHandler);
   };
 
   // Валидация. Поле с количеством гостей
@@ -122,18 +122,18 @@
   var addFormMessage = function (message) {
     document.body.appendChild(message);
     message.classList.add('message');
-    document.addEventListener('click', onDocumentClick);
-    document.addEventListener('keydown', onDocumentEscape);
+    document.addEventListener('click', documentClickHandler);
+    document.addEventListener('keydown', documentEscapeClickHandler);
   };
 
   var removeFormMessage = function () {
     document.querySelector('.message').remove();
-    document.removeEventListener('click', onDocumentClick);
-    document.removeEventListener('keydown', onDocumentEscape);
+    document.removeEventListener('click', documentClickHandler);
+    document.removeEventListener('keydown', documentEscapeClickHandler);
   };
 
   // Обработчик удаления сообщений при отправки формы по клику на документ
-  var onDocumentClick = function (evt) {
+  var documentClickHandler = function (evt) {
     evt.preventDefault();
     if (evt.button === 0) {
       removeFormMessage();
@@ -141,7 +141,7 @@
   };
 
   // Обработчик удаления сообщений при отправки формы по по клику на Escape
-  var onDocumentEscape = function (evt) {
+  var documentEscapeClickHandler = function (evt) {
     evt.preventDefault();
     if (evt.key === 'Escape') {
       removeFormMessage();
@@ -149,7 +149,7 @@
   };
 
   // Отправка формы
-  var onSubmitSendForm = function (evt) {
+  var submitSendFormHandler = function (evt) {
     evt.preventDefault();
     window.backend.upload(new FormData(adForm),
         function () {
@@ -168,7 +168,7 @@
     });
   };
 
-  var onFormSubmitClick = function () {
+  var formSubmitClickHandler = function () {
     validateFormFields(inputs);
   };
 
@@ -182,6 +182,6 @@
     guestsNumber: guestsNumber,
     enableFieldsets: enableFieldsets,
     disableFieldsets: disableFieldsets,
-    onFormSubmitClick: onFormSubmitClick
+    formSubmitClickHandler: formSubmitClickHandler
   };
 })();

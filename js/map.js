@@ -3,6 +3,11 @@
 (function () {
   var mapWidth = window.util.map.clientWidth;
   var pinMain = document.querySelector('.map__pin--main');
+  var pinMainDefaultCoords = 'left: 570px; top: 375px;';
+
+  var getMainPinDefault = function () {
+    pinMain.style = pinMainDefaultCoords;
+  };
 
   // Подставить координаты пина в инпут
   var mainPinX = Math.round(pinMain.offsetLeft + (window.util.PIN_WIDTH / 2));
@@ -22,6 +27,9 @@
 
   var disablePage = function () {
     window.form.disable();
+    window.mapPins.remove();
+    window.util.map.classList.add('map--faded');
+    getMainPinDefault();
   };
 
   disablePage();
@@ -47,7 +55,7 @@
       y: evt.clientY
     };
 
-    var onMouseMove = function (moveEvt) {
+    var mouseMoveHandler = function (moveEvt) {
       moveEvt.preventDefault();
 
       var shift = {
@@ -86,14 +94,14 @@
       window.form.addressInput.value = pinMainCurrentCoords.x + ', ' + pinMainCurrentCoords.y;
     };
 
-    var onMouseUp = function (upEvt) {
+    var mouseUpHandler = function (upEvt) {
       upEvt.preventDefault();
-      document.removeEventListener('mousemove', onMouseMove);
-      document.removeEventListener('mouseup', onMouseUp);
+      document.removeEventListener('mousemove', mouseMoveHandler);
+      document.removeEventListener('mouseup', mouseUpHandler);
     };
 
-    document.addEventListener('mousemove', onMouseMove);
-    document.addEventListener('mouseup', onMouseUp);
+    document.addEventListener('mousemove', mouseMoveHandler);
+    document.addEventListener('mouseup', mouseUpHandler);
   });
 
   window.mapArea = {
