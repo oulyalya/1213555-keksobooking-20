@@ -70,6 +70,7 @@
   };
 
   window.mapPins = {
+    remove: removePins,
     removeActiveClassPin: removeActiveClassPin,
     generatePin: generatePin,
     renderPins: renderPins,
