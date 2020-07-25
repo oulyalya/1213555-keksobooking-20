@@ -15,11 +15,13 @@
 
   // Закрывает попап
   var closeCard = function () {
-    removeCard();
-    cardClose.removeEventListener('click', closeCard);
-    document.removeEventListener('keydown', cardEscPressHandler);
-    document.removeEventListener('keydown', cardEnterPressHandler);
-    window.mapPins.removeActiveClassPin();
+    if (card) {
+      removeCard();
+      cardClose.removeEventListener('click', closeCard);
+      document.removeEventListener('keydown', cardEscPressHandler);
+      document.removeEventListener('keydown', cardEnterPressHandler);
+      window.mapPins.removeActiveClassPin();
+    }
   };
 
   var cardEscPressHandler = function (evt) {
