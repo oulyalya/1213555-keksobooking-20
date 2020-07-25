@@ -1,6 +1,7 @@
 'use strict';
 
 (function () {
+  var DEFAULT_PINS_NUMBER = 5;
   var pins = document.querySelector('.map__pins');
   var pinsTemplate = document.querySelector('#pin').content.querySelector('button');
   var pinsFragment = document.createDocumentFragment();
@@ -47,7 +48,7 @@
 
   var onSuccessRenderPins = function (adverts) {
     window.ads = adverts;
-    renderPins(window.ads);
+    renderPins(window.ads.slice(0, DEFAULT_PINS_NUMBER));
   };
 
   var onErrorRenderPins = function (errorMessage) {
@@ -70,6 +71,7 @@
   };
 
   window.mapPins = {
+    DEFAULT_PINS_NUMBER: DEFAULT_PINS_NUMBER,
     remove: removePins,
     removeActiveClassPin: removeActiveClassPin,
     generatePin: generatePin,

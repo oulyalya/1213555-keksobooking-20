@@ -27,8 +27,8 @@
 
   var disablePage = function () {
     window.form.disable();
-    window.mapPins.remove();
     window.util.map.classList.add('map--faded');
+    window.mapPins.remove();
     getMainPinDefault();
   };
 
