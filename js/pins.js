@@ -41,7 +41,7 @@
     adverts.forEach(function (adv) {
       pinsFragment.appendChild(generatePin(adv));
     });
-    window.cardPopup.mapPin.appendChild(pinsFragment);
+    pins.appendChild(pinsFragment);
   };
 
   window.ads = [];
@@ -78,7 +78,6 @@
     renderPins: renderPins,
     onSuccessRenderPins: onSuccessRenderPins,
     onErrorRenderPins: onErrorRenderPins,
-    removePins: removePins,
     pins: pins,
     pinsFragment: pinsFragment,
   };

@@ -4,10 +4,10 @@
   var filterForm = document.querySelector('.map__filters');
 
   var selectHousingType = filterForm.querySelector('#housing-type');
-  var selectHousingPrice = filterForm.querySelector('#housing-price');
-  var selectHousingRooms = filterForm.querySelector('#housing-rooms');
-  var selectHousingGuests = filterForm.querySelector('#housing-guests');
-  var mapFeatures = filterForm.querySelector('.map__features');
+  // var selectHousingPrice = filterForm.querySelector('#housing-price');
+  // var selectHousingRooms = filterForm.querySelector('#housing-rooms');
+  // var selectHousingGuests = filterForm.querySelector('#housing-guests');
+  // var mapFeatures = filterForm.querySelector('.map__features');
 
 
   var filtrateByType = function (ad) {
@@ -16,16 +16,7 @@
       return true;
     } else {
       return type === ad.offer.type;
-    };
-  };
-
-  var filtrateByType = function (ad) {
-    var type = selectHousingType.value;
-    if (type === 'any') {
-      return true;
-    } else {
-      return type === ad.offer.type;
-    };
+    }
   };
 
   var filtrateAds = function () {
@@ -35,16 +26,14 @@
   };
 
   var filterChangeHandler = function () {
-    window.pins.removePin();
-    window.popup.removeCard();
-
+    window.cardPopup.closeCard();
+    window.mapPins.remove();
     window.mapPins.renderPins(filtrateAds());
   };
 
   filterForm.addEventListener('change', filterChangeHandler);
 
   window.filter = {
-    filtrate: filtrateAds,
-    selectHousingType: selectHousingType
-  }
+    filtrate: filtrateAds
+  };
 })();
