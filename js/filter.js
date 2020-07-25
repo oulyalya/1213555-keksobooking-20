@@ -34,13 +34,14 @@
     return filteredData;
   };
 
-  // var filterChangeHandler = function () {
-  //   window.popup.removeCard();
-  //   window.pins.removePin();
-  //   window.mapPins.renderPins(filtered adverts)
-  // };
+  var filterChangeHandler = function () {
+    window.pins.removePin();
+    window.popup.removeCard();
 
-  // filterForm.addEventListener('change', filterChangeHandler);
+    window.mapPins.renderPins(filtrateAds());
+  };
+
+  filterForm.addEventListener('change', filterChangeHandler);
 
   window.filter = {
     filtrate: filtrateAds,
