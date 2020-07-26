@@ -53,7 +53,7 @@
     if (rooms === 'any') {
       return true;
     } else {
-      return parseInt(rooms, 10) <= ad.offer.rooms;
+      return parseInt(rooms, 10) === ad.offer.rooms;
     }
   };
 
@@ -63,7 +63,7 @@
     if (guests === 'any') {
       return true;
     } else {
-      return parseInt(guests, 10) <= ad.offer.guests;
+      return parseInt(guests, 10) === ad.offer.guests;
     }
   };
 
