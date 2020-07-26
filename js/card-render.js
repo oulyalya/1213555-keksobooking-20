@@ -1,13 +1,10 @@
 'use strict';
 
 (function () {
-
-  // Карточка объявления
   var cardsTemplate = document.querySelector('#card')
     .content
     .querySelector('.map__card');
 
-  // Создает карточку объявления
   var createCard = function (adv) {
     var cardBlock = cardsTemplate.cloneNode(true);
 
