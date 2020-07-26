@@ -46,12 +46,12 @@
 
   window.ads = [];
 
-  var onSuccessRenderPins = function (adverts) {
+  var successRenderPinsHandler = function (adverts) {
     window.ads = adverts;
     renderPins(window.ads.slice(0, DEFAULT_PINS_NUMBER));
   };
 
-  var onErrorRenderPins = function (errorMessage) {
+  var errorRenderPinsHandler = function (errorMessage) {
     var node = document.createElement('div');
     node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red;';
     node.style.position = 'absolute';
@@ -76,8 +76,8 @@
     removeActiveClassPin: removeActiveClassPin,
     generatePin: generatePin,
     renderPins: renderPins,
-    onSuccessRenderPins: onSuccessRenderPins,
-    onErrorRenderPins: onErrorRenderPins,
+    successRenderPinsHandler: successRenderPinsHandler,
+    errorRenderPinsHandler: errorRenderPinsHandler,
     pins: pins,
     pinsFragment: pinsFragment,
   };

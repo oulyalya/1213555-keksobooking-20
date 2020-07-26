@@ -20,7 +20,7 @@
     window.util.map.classList.remove('map--faded');
     window.form.enable();
     changeAddressInputValue();
-    window.backend.load(window.mapPins.onSuccessRenderPins, window.mapPins.onErrorRenderPins);
+    window.backend.load(window.mapPins.successRenderPinsHandler, window.mapPins.errorRenderPinsHandler);
     pinMain.removeEventListener('keydown', enablePage);
     pinMain.removeEventListener('mousedown', enablePage);
   };

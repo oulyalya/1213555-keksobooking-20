@@ -1,7 +1,6 @@
 'use strict';
 
 (function () {
-  // Попап
   var card;
   var cardClose;
   var mapPin = document.querySelector('.map__pins');

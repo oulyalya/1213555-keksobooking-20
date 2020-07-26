@@ -36,6 +36,7 @@
     enableFieldsets(formFieldsets);
     adForm.addEventListener('submit', submitSendFormHandler);
     adFormSubmit.addEventListener('click', formSubmitClickHandler);
+    window.filter.reset();
   };
 
   // Валидация. Поле с количеством гостей
