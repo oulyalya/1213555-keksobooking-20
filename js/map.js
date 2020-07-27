@@ -1,13 +1,11 @@
 'use strict';
 
 (function () {
+  var LOCATION_Y_MIN = 130;
+  var LOCATION_Y_MAX = 630;
   var mapWidth = window.util.map.clientWidth;
   var pinMain = document.querySelector('.map__pin--main');
   var pinMainDefaultCoords = 'left: 570px; top: 375px;';
-
-  var getMainPinDefault = function () {
-    pinMain.style = pinMainDefaultCoords;
-  };
 
   // Подставить координаты пина в инпут
   var mainPinX = Math.round(pinMain.offsetLeft + (window.util.PIN_WIDTH / 2));
@@ -18,7 +16,7 @@
 
   var enablePage = function () {
     window.util.map.classList.remove('map--faded');
-    window.form.enable();
+    window.form.activate();
     changeAddressInputValue();
     window.backend.load(window.mapPins.successRenderPinsHandler, window.mapPins.errorRenderPinsHandler);
     pinMain.removeEventListener('keydown', enablePage);
@@ -26,10 +24,10 @@
   };
 
   var disablePage = function () {
-    window.form.disable();
+    window.form.deactivate();
     window.util.map.classList.add('map--faded');
     window.mapPins.remove();
-    getMainPinDefault();
+    pinMain.style = pinMainDefaultCoords;
   };
 
   disablePage();
@@ -69,10 +67,10 @@
       };
 
       var isCursorOutside = function () {
-        return pinMainCurrentCoords.y < window.data.LOCATION_Y_MIN ||
-        pinMainCurrentCoords.y > window.data.LOCATION_Y_MAX ||
+        return pinMainCurrentCoords.y < LOCATION_Y_MIN ||
+        pinMainCurrentCoords.y > LOCATION_Y_MAX ||
         pinMainCurrentCoords.x < 0 ||
-        pinMainCurrentCoords.x > 1200;
+        pinMainCurrentCoords.x > mapWidth;
       };
 
       if (isCursorOutside()) {

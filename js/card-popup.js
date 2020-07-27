@@ -13,10 +13,10 @@
   };
 
   // Закрывает попап
-  var closeCard = function () {
+  var closeCardHandler = function () {
     if (card) {
       removeCard();
-      cardClose.removeEventListener('click', closeCard);
+      cardClose.removeEventListener('click', closeCardHandler);
       document.removeEventListener('keydown', cardEscPressHandler);
       document.removeEventListener('keydown', cardEnterPressHandler);
       window.mapPins.removeActiveClassPin();
@@ -25,32 +25,33 @@
 
   var cardEscPressHandler = function (evt) {
     if (evt.key === 'Escape') {
-      closeCard();
+      closeCardHandler();
     }
   };
 
   var cardEnterPressHandler = function (evt) {
     if (evt.key === 'Enter') {
-      closeCard();
+      closeCardHandler();
     }
   };
 
   // Открывает попап (показывает объявление)
   var openCard = function (ad) {
     if (card) {
-      closeCard();
+      closeCardHandler();
     }
     card = mapPin.insertAdjacentElement('afterEnd', window.cardRender.createCard(ad));
     cardClose = card.querySelector('.popup__close');
-    cardClose.addEventListener('click', closeCard);
+    cardClose.addEventListener('click', closeCardHandler);
     document.addEventListener('keydown', cardEscPressHandler);
     document.addEventListener('keydown', cardEnterPressHandler);
   };
 
   window.cardPopup = {
+    card: card,
     mapPin: mapPin,
-    removeCard: removeCard,
-    openCard: openCard,
-    closeCard: closeCard
+    remove: removeCard,
+    open: openCard,
+    close: closeCardHandler
   };
 })();

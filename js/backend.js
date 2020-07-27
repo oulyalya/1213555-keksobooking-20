@@ -1,56 +1,50 @@
 'use strict';
 
 (function () {
-  var URL = 'https://javascript.pages.academy/keksobooking/data';
-  var UPLOAD_URL = 'https://javascript.pages.academy/keksobooking';
-  var TIMEOUT_IN_MS = 10000;
-  var ONE_SECOND_IN_MS = 1000;
+  var ServerUrl = {
+    LOAD: 'https://javascript.pages.academy/keksobooking/data',
+    UPLOAD: 'https://javascript.pages.academy/keksobooking',
+  };
 
   var Code = {
     OK: 200,
   };
 
-  var load = function (onSuccess, onError) {
-    var xhr = new XMLHttpRequest();
-    xhr.responseType = 'json';
-
-    xhr.addEventListener('load', function () {
-      if (xhr.status === Code.OK) {
-        onSuccess(xhr.response);
-      } else {
-        onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
-      }
-    });
-    xhr.addEventListener('error', function () {
-      onError('Произошла ошибка соединения');
-    });
-    xhr.addEventListener('timeout', function () {
-      onError('Запрос не успел выполниться за ' + xhr.timeout / ONE_SECOND_IN_MS + 'с');
-    });
-
-    xhr.timeout = TIMEOUT_IN_MS;
-
-    xhr.open('GET', URL);
-    xhr.send();
+  var MessageText = {
+    ERROR_LOAD: 'Произошла неизвестная ошибка. Пожалуйста, обновите страницу.',
+    ERROR_SERVER: 'Произошла ошибка соединения. Пожалуйста, обновите страницу.',
+    ERROR_TIMEOUT: 'Сервер долго не отвечает. Пожалуйста, обновите страницу.',
   };
 
-  var upload = function (data, onSuccess, onError) {
+  var createXhr = function (method, url, onSuccess, onError) {
     var xhr = new XMLHttpRequest();
-
+    xhr.responseType = 'json';
     xhr.addEventListener('load', function () {
       if (xhr.status === Code.OK) {
         onSuccess(xhr.response);
       } else {
-        onError('Ошибка загрузки объявления');
+        onError(MessageText.ERROR_LOAD);
       }
     });
 
     xhr.addEventListener('error', function () {
-      onError('Произошла ошибка соединения');
+      onError(MessageText.ERROR_SERVER);
     });
 
-    xhr.open('POST', UPLOAD_URL);
-    xhr.send(data);
+    xhr.addEventListener('timeout', function () {
+      onError(MessageText.ERROR_TIMEOUT);
+    });
+
+    xhr.open(method, url);
+    return xhr;
+  };
+
+  var load = function (onSuccess, onError) {
+    createXhr('GET', ServerUrl.LOAD, onSuccess, onError).send();
+  };
+
+  var upload = function (onSuccess, onError, data) {
+    createXhr('POST', ServerUrl.UPLOAD, onSuccess, onError).send(data);
   };
 
   window.backend = {

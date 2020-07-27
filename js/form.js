@@ -1,23 +1,31 @@
 'use strict';
 
 (function () {
+  var MinPrices = {
+    BUNGALO: 0,
+    FLAT: 1000,
+    HOUSE: 5000,
+    PALACE: 10000,
+  };
+
   var adForm = document.querySelector('.ad-form');
   var addressInput = adForm.querySelector('input[name="address"]');
   var formFieldsets = adForm.querySelectorAll('fieldset');
   var inputs = adForm.querySelectorAll('input');
   var adFormSubmit = adForm.querySelector('.ad-form__submit');
+  var adFormReset = adForm.querySelector('.ad-form__reset');
 
   // Сделать инпуты активными
-  var enableFieldsets = function (fieldsetsArr) {
-    for (var i = 0; i < fieldsetsArr.length; i++) {
-      fieldsetsArr[i].removeAttribute('disabled', 'disabled');
+  var enableFieldsets = function (fieldsets) {
+    for (var i = 0; i < fieldsets.length; i++) {
+      fieldsets[i].removeAttribute('disabled');
     }
   };
 
   // Сделать инпуты неактивными
-  var disableFieldsets = function (fieldsetsArr) {
-    for (var i = 0; i < fieldsetsArr.length; i++) {
-      fieldsetsArr[i].setAttribute('disabled', 'true');
+  var disableFieldsets = function (fieldsets) {
+    for (var i = 0; i < fieldsets.length; i++) {
+      fieldsets[i].setAttribute('disabled', 'true');
     }
   };
 
@@ -43,7 +51,7 @@
   var roomsNumber = adForm.querySelector('#room_number');
   var guestsNumber = adForm.querySelector('#capacity');
 
-  var validateGuestsNumber = function () {
+  var guestsChangeHandler = function () {
     adForm.reportValidity();
     var validityMessage = 'В 1 комнате может расположиться только 1 гость.';
 
@@ -60,38 +68,20 @@
     guestsNumber.setCustomValidity(validityMessage);
   };
 
-  guestsNumber.addEventListener('change', validateGuestsNumber);
+  guestsNumber.addEventListener('change', guestsChangeHandler);
 
   // Минимальная цена, соответствующая типу жилья
-  var getMinPriceOfHousing = function (type) {
-    var minPrice = 0;
-    switch (type) {
-      case 'bungalo':
-        minPrice = 0;
-        break;
-      case 'flat':
-        minPrice = 1000;
-        break;
-      case 'house':
-        minPrice = 5000;
-        break;
-      case 'palace':
-        minPrice = 10000;
-        break;
-    }
-    return minPrice;
-  };
-
   var typeOfHousing = adForm.querySelector('select[name="type"]');
   var priceOfHousing = adForm.querySelector('input[name="price"]');
 
-  var setMinPriceOfHousing = function () {
-    var price = getMinPriceOfHousing(typeOfHousing.value);
+  var priceOfHousingChangeHandler = function () {
+    var type = typeOfHousing.value.toUpperCase();
+    var price = MinPrices[type];
     priceOfHousing.min = price;
     priceOfHousing.placeholder = price;
   };
 
-  typeOfHousing.addEventListener('change', setMinPriceOfHousing);
+  typeOfHousing.addEventListener('change', priceOfHousingChangeHandler);
 
   // Синхронизация времени заезда и выезда
   var timeInSelect = adForm.querySelector('select[name="timein"]');
@@ -99,15 +89,8 @@
 
   var syncTimes = function (time1, time2) {
     time1.addEventListener('change', function () {
-      if (time1[0].selected === true) {
-        time2[0].selected = true;
-      }
-      if (time1[1].selected === true) {
-        time2[1].selected = true;
-      }
-      if (time1[2].selected === true) {
-        time2[2].selected = true;
-      }
+      var time = time1.value;
+      time2.value = time;
     });
   };
 
@@ -124,13 +107,13 @@
     document.body.appendChild(message);
     message.classList.add('message');
     document.addEventListener('click', documentClickHandler);
-    document.addEventListener('keydown', documentEscapeClickHandler);
+    document.addEventListener('keydown', escapeClickHandler);
   };
 
   var removeFormMessage = function () {
     document.querySelector('.message').remove();
     document.removeEventListener('click', documentClickHandler);
-    document.removeEventListener('keydown', documentEscapeClickHandler);
+    document.removeEventListener('keydown', escapeClickHandler);
   };
 
   // Обработчик удаления сообщений при отправки формы по клику на документ
@@ -142,7 +125,7 @@
   };
 
   // Обработчик удаления сообщений при отправки формы по по клику на Escape
-  var documentEscapeClickHandler = function (evt) {
+  var escapeClickHandler = function (evt) {
     evt.preventDefault();
     if (evt.key === 'Escape') {
       removeFormMessage();
@@ -173,16 +156,40 @@
     validateFormFields(inputs);
   };
 
+  var removeUploadingAvatar = function () {
+    var defaultAvatarSrc = 'img/muffin-grey.svg';
+    var avatar = document.querySelector('.ad-form-header__preview img');
+    avatar.src = defaultAvatarSrc;
+  };
+
+  var removeUploadingPics = function () {
+    var pics = document.querySelectorAll('.form__uploading-photo');
+    pics.forEach(function (it) {
+      it.remove();
+    });
+  };
+
+  var formResetClickHandler = function () {
+    window.cardPopup.close();
+    window.mapArea.disablePage();
+    window.filter.reset();
+    removeUploadingAvatar();
+    removeUploadingPics();
+    adFormReset.removeEventListener('click', formResetClickHandler);
+  };
+
+  adFormReset.addEventListener('click', formResetClickHandler);
+
   window.form = {
-    enable: activateForm,
-    disable: deactivateForm,
+    activate: activateForm,
+    deactivate: deactivateForm,
     adForm: adForm,
     addressInput: addressInput,
     formFieldsets: formFieldsets,
     inputs: inputs,
     guestsNumber: guestsNumber,
-    enableFieldsets: enableFieldsets,
-    disableFieldsets: disableFieldsets,
+    enable: enableFieldsets,
+    disable: disableFieldsets,
     formSubmitClickHandler: formSubmitClickHandler
   };
 })();
