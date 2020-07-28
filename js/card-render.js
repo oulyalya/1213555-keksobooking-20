@@ -59,6 +59,6 @@
   };
 
   window.cardRender = {
-    createCard: createCard,
+    createCard: createCard
   };
 })();
