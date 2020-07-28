@@ -16,9 +16,9 @@
 
   var enablePage = function () {
     window.util.map.classList.remove('map--faded');
-    window.form.activate();
     changeAddressInputValue();
     window.backend.load(window.mapPins.successRenderPinsHandler, window.mapPins.errorRenderPinsHandler);
+    window.form.activate();
     pinMain.removeEventListener('keydown', enablePage);
     pinMain.removeEventListener('mousedown', enablePage);
   };
@@ -27,25 +27,28 @@
     window.form.deactivate();
     window.util.map.classList.add('map--faded');
     window.mapPins.remove();
+    window.filter.disable(window.filter.filters);
     pinMain.style = pinMainDefaultCoords;
   };
 
   disablePage();
 
-  pinMain.addEventListener('keydown', function (evt) {
+  var pinMainKeydownHandler = function (evt) {
     if (evt.key === 'Enter') {
       enablePage();
     }
-  });
+    pinMain.removeEventListener('keydown', pinMainKeydownHandler);
+  };
 
-  pinMain.addEventListener('mousedown', function (evt) {
+  var pinMainMousedownHandler = function (evt) {
     if (evt.which === 1) {
       enablePage();
     }
-  });
+    pinMain.removeEventListener('mousedown', pinMainMousedownHandler);
+  };
 
   // перемещение главного пина
-  pinMain.addEventListener('mousedown', function (evt) {
+  var pinMainMoveHandler = function (evt) {
     evt.preventDefault();
 
     var startCoords = {
@@ -100,10 +103,16 @@
 
     document.addEventListener('mousemove', mouseMoveHandler);
     document.addEventListener('mouseup', mouseUpHandler);
-  });
+  };
+
+  pinMain.addEventListener('keydown', pinMainKeydownHandler);
+  pinMain.addEventListener('mousedown', pinMainMousedownHandler);
+  pinMain.addEventListener('mousedown', pinMainMoveHandler);
 
   window.mapArea = {
     mapWidth: mapWidth,
-    disablePage: disablePage
+    disablePage: disablePage,
+    pinMainKeydownHandler: pinMainKeydownHandler,
+    pinMainMousedownHandler: pinMainMousedownHandler
   };
 })();

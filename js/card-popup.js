@@ -44,7 +44,7 @@
     cardClose = card.querySelector('.popup__close');
     cardClose.addEventListener('click', closeCardHandler);
     document.addEventListener('keydown', cardEscPressHandler);
-    document.addEventListener('keydown', cardEnterPressHandler);
+    cardClose.addEventListener('keydown', cardEnterPressHandler);
   };
 
   window.cardPopup = {

@@ -43,7 +43,7 @@
     createXhr('GET', ServerUrl.LOAD, onSuccess, onError).send();
   };
 
-  var upload = function (onSuccess, onError, data) {
+  var upload = function (data, onSuccess, onError) {
     createXhr('POST', ServerUrl.UPLOAD, onSuccess, onError).send(data);
   };
 

@@ -14,12 +14,14 @@
   var inputs = adForm.querySelectorAll('input');
   var adFormSubmit = adForm.querySelector('.ad-form__submit');
   var adFormReset = adForm.querySelector('.ad-form__reset');
+  var pinMainBtn = document.querySelector('.map__pin--main');
 
   // Сделать инпуты активными
   var enableFieldsets = function (fieldsets) {
     for (var i = 0; i < fieldsets.length; i++) {
       fieldsets[i].removeAttribute('disabled');
     }
+    setMinPriceOfHousing();
   };
 
   // Сделать инпуты неактивными
@@ -69,19 +71,24 @@
   };
 
   guestsNumber.addEventListener('change', guestsChangeHandler);
+  roomsNumber.addEventListener('change', guestsChangeHandler);
 
   // Минимальная цена, соответствующая типу жилья
   var typeOfHousing = adForm.querySelector('select[name="type"]');
   var priceOfHousing = adForm.querySelector('input[name="price"]');
 
-  var priceOfHousingChangeHandler = function () {
+  var setMinPriceOfHousing = function () {
     var type = typeOfHousing.value.toUpperCase();
     var price = MinPrices[type];
     priceOfHousing.min = price;
     priceOfHousing.placeholder = price;
   };
 
-  typeOfHousing.addEventListener('change', priceOfHousingChangeHandler);
+  var minPriceOfHousingChangeHandler = function () {
+    setMinPriceOfHousing();
+  };
+
+  typeOfHousing.addEventListener('change', minPriceOfHousingChangeHandler);
 
   // Синхронизация времени заезда и выезда
   var timeInSelect = adForm.querySelector('select[name="timein"]');
@@ -154,6 +161,8 @@
 
   var formSubmitClickHandler = function () {
     validateFormFields(inputs);
+    pinMainBtn.addEventListener('keydown', window.mapArea.pinMainKeydownHandler);
+    pinMainBtn.addEventListener('mousedown', window.mapArea.pinMainMousedownHandler);
   };
 
   var removeUploadingAvatar = function () {
@@ -172,10 +181,11 @@
   var formResetClickHandler = function () {
     window.cardPopup.close();
     window.mapArea.disablePage();
+    pinMainBtn.addEventListener('keydown', window.mapArea.pinMainKeydownHandler);
+    pinMainBtn.addEventListener('mousedown', window.mapArea.pinMainMousedownHandler);
     window.filter.reset();
     removeUploadingAvatar();
     removeUploadingPics();
-    adFormReset.removeEventListener('click', formResetClickHandler);
   };
 
   adFormReset.addEventListener('click', formResetClickHandler);
