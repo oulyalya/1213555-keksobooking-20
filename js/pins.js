@@ -29,7 +29,7 @@
     pin.querySelector('img').alt = ad.offer.title;
 
     pin.addEventListener('click', function () {
-      window.cardPopup.openCard(ad);
+      window.cardPopup.open(ad);
       addActiveClassPin(pin);
     });
 
@@ -49,6 +49,7 @@
   var successRenderPinsHandler = function (adverts) {
     window.ads = adverts;
     renderPins(window.ads.slice(0, DEFAULT_PINS_NUMBER));
+    window.filter.enable(window.filter.filters);
   };
 
   var errorRenderPinsHandler = function (errorMessage) {

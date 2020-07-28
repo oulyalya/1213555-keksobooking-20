@@ -8,6 +8,13 @@
   var PIN_WIDTH = 50;
   var PIN_HEIGHT = 70;
 
+  var TYPES_POPUP = {
+    palace: 'Дворец',
+    flat: 'Квартира',
+    house: 'Дом',
+    bungalo: 'Бунгало'
+  };
+
   var map = document.querySelector('.map');
 
   var isEscEvent = function (evt, action) {
@@ -31,6 +38,8 @@
     map: map,
     COUNT_OF_OBJECTS: COUNT_OF_OBJECTS,
     PIN_WIDTH: PIN_WIDTH,
-    PIN_HEIGHT: PIN_HEIGHT
+    PIN_HEIGHT: PIN_HEIGHT,
+    TYPES_POPUP: TYPES_POPUP,
+
   };
 })();
