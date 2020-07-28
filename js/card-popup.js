@@ -15,11 +15,11 @@
   // Закрывает попап
   var closeCardHandler = function () {
     if (card) {
-      removeCard();
       cardClose.removeEventListener('click', closeCardHandler);
+      cardClose.removeEventListener('keydown', cardEnterPressHandler);
       document.removeEventListener('keydown', cardEscPressHandler);
-      document.removeEventListener('keydown', cardEnterPressHandler);
       window.mapPins.removeActiveClassPin();
+      removeCard();
     }
   };
 
@@ -43,8 +43,8 @@
     card = mapPin.insertAdjacentElement('afterEnd', window.cardRender.createCard(ad));
     cardClose = card.querySelector('.popup__close');
     cardClose.addEventListener('click', closeCardHandler);
-    document.addEventListener('keydown', cardEscPressHandler);
     cardClose.addEventListener('keydown', cardEnterPressHandler);
+    document.addEventListener('keydown', cardEscPressHandler);
   };
 
   window.cardPopup = {
